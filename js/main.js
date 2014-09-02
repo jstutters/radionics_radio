@@ -21,8 +21,8 @@ $(document).ready(function() {
 function createKnobs() {
   // main frequency knob
   $(".dial").knob({
-    'min': 1000,
-    'max': 4000,
+    'min': 50,
+    'max': 5000,
     'angleOffset': 270,
     'angleArc': 180,
     'displayInput': false,
@@ -42,21 +42,19 @@ function createKnobs() {
     'change': freqnudgeChanged
   })
 
-  $(".freqrangeknob").knob({
-    'min': 1000,
-    'max': 4000,
+  $(".freqpresetknob").knob({
+    'min': 1,
+    'max': 4,
     'angleOffset': 300,
     'angleArc': 120,
-    'step': 1000,
-    'change': freqrangeChanged
+    'step': 1,
+    'change': freqpresetChanged
   })
 }
 
-function freqrangeChanged(val) {
-  console.log(val % 1000);
-  if (val % 1000 == 0) {
-    $(".dial").val(val).trigger('change');
-  }
+function freqpresetChanged(val) {
+  console.log(val)
+    $(".dial").val(val * 1000).trigger('change');
 }
 
 function freqnudgeChanged() {
@@ -86,7 +84,11 @@ function freqnudgeChanged() {
 
 function incr() {
   var newfreq = oscillator.frequency.value + 1;
-  oscillator.frequency.value = newfreq;
+  try {
+      oscillator.frequency.value = newfreq;
+  } catch (e) {
+      console.log(e);
+  }
   $(".dial").val(newfreq).trigger('change');
 }
 
@@ -112,7 +114,11 @@ function createButtons() {
 
 // on change of main frequency knob
 function mainFreqChanged(val) {
-  oscillator.frequency.value = val;
+  try {
+      oscillator.frequency.value = val;
+  } catch (e) {
+        console.log(e);
+    }
   console.log("setting frequency to", val);
 }
 
