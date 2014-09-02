@@ -1,0 +1,12 @@
+body {
+	background-color: black;
+	color: white;
+}
+
+div#freqdial {
+	position: absolute;
+	top: 150px;
+	left: 180px;
+	background-image: url(../img/arco.png);
+	background-repeat: no-repeat
+}
