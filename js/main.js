@@ -8,6 +8,7 @@ var i = 0;
 var v;
 var up = 0;
 var down = 0;
+var storedFreqIdx = 1;
 
 // on document load
 $(document).ready(function() {
@@ -53,15 +54,13 @@ function createKnobs() {
 }
 
 function freqpresetChanged(val) {
-  console.log(val)
-    $(".dial").val(val * 1000).trigger('change');
+    oscillatorFreq = val * 1000;
+    $(".dial").val(oscillatorFreq).trigger('change');
 }
 
 function freqnudgeChanged() {
-  console.log("changed");
   if (v > this.cv) {
     if (up) {
-      console.log('decr')
       decr();
       up = 0;
     } else {
@@ -83,19 +82,13 @@ function freqnudgeChanged() {
 }
 
 function incr() {
-  var newfreq = oscillator.frequency.value + 1;
-  try {
-      oscillator.frequency.value = newfreq;
-  } catch (e) {
-      console.log(e);
-  }
-  $(".dial").val(newfreq).trigger('change');
+  oscillatorFreq++;
+  $(".dial").val(oscillatorFreq).trigger('change');
 }
 
 function decr() {
-  var newfreq = oscillator.frequency.value - 1;
-  oscillator.frequency.value = newfreq;
-  $(".dial").val(newfreq).trigger('change');
+  oscillatorFreq--;
+  $(".dial").val(oscillatorFreq).trigger('change');
 }
 
 function drawImageKnob() {
@@ -110,6 +103,14 @@ function drawImageKnob() {
 
 function createButtons() {
   $("#audio_toggle").on("click", toggleOscillator);
+  $("#storefreq").on("click", storeFrequency);
+}
+
+// on store frequency click
+function storeFrequency() {
+    var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
+    $(selector).text(oscillatorFreq.toString());
+    storedFreqIdx++;
 }
 
 // on change of main frequency knob
@@ -119,6 +120,7 @@ function mainFreqChanged(val) {
   } catch (e) {
         console.log(e);
     }
+  oscillatorFreq = val;
   console.log("setting frequency to", val);
 }
 
