@@ -8,5 +8,19 @@ div#freqdial {
 	top: 150px;
 	left: 180px;
 	background-image: url(../img/arco.png);
-	background-repeat: no-repeat
+	background-repeat: no-repeat;
+}
+
+div#freqpreset {
+  position: absolute;
+  top: 400px;
+  left: 700px;
+  background-image: url(../img/range_arc.png);
+  background-repeat: no-repeat;
+  background-position: 7px 0px;
+}
+
+div#thoughtbox {
+  position: absolute;
+  left: 800px;
 }

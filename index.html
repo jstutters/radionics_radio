@@ -12,20 +12,31 @@
   <div id="freqdial">
     <input value="50" class="dial">
   </div>
-  <div id="freqnudge">
-  	<input class="infknob" data-cursor="true" data-displayInput="false">
-	</div>
+
+  <div id="thoughtbox">
+    <div id="freqnudge">
+    	<input class="infknob" data-cursor="true" data-displayInput="false">
+  	</div>
+    <textarea id="thoughttext" cols="20" rows="5" style="position: relative; top: -210px; left: 35px"></textarea>
+  </div>
+
 	<div id="freqpreset">
 		<input class="freqpresetknob" value="1">
 	</div>
-  <div id="audio_toggle"><p>Audio start/stop</p></div>
-  <div id="storefreq"><p>Store frequency</p></div>
-  <ul id="storedfreqs">
+
+  <img id="audio_toggle" src="img/offon.png">
+
+  <div id="disable_textarea"><p>Disable textarea</p></div>
+
+  <div id="freqstorage">
+    <div id="storefreq"><p>Store frequency</p></div>
+    <ul id="storedfreqs">
       <li></li>
       <li></li>
       <li></li>
       <li></li>
       <li></li>
     </ul>
+  </div>
 </body>
 </html>

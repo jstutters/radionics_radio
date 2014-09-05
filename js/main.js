@@ -16,6 +16,11 @@ $(document).ready(function() {
   createButtons();
   initialiseAudio();
   createOscillator();
+  $(document).keypress(function(ev) {
+    if (!$('textarea#thoughttext').is(":focus")) {
+      console.log(ev.which);
+    }
+  })
 });
 
 // create the various knobs
@@ -28,17 +33,16 @@ function createKnobs() {
     'angleArc': 180,
     'displayInput': false,
     'change': mainFreqChanged,
-    'draw': drawImageKnob,
+    'draw': drawMainFreqKnob,
     'width': 500,
     'height': 500
   });
-  $(".dial")
-    .val(oscillatorFreq)
-    .trigger('change');
 
   $(".infknob").knob({
     'min': 0,
     'max': 20,
+    'width': 300,
+    'height': 300,
     'stopper': false,
     'change': freqnudgeChanged
   })
@@ -47,10 +51,23 @@ function createKnobs() {
     'min': 1,
     'max': 4,
     'angleOffset': 300,
-    'angleArc': 120,
+    'angleArc': 100,
+    'displayInput': false,
     'step': 1,
-    'change': freqpresetChanged
+    'change': freqpresetChanged,
+    'draw': drawFreqPresetKnob,
+    'width': 100,
+    'height': 100,
   })
+
+  window.setTimeout(function() {
+    $(".dial")
+      .val(oscillatorFreq)
+      .trigger('change');
+    $(".freqpresetknob")
+      .val(1)
+      .trigger('change');
+  }, 500);
 }
 
 function freqpresetChanged(val) {
@@ -91,19 +108,32 @@ function decr() {
   $(".dial").val(oscillatorFreq).trigger('change');
 }
 
-function drawImageKnob() {
+function drawMainFreqKnob() {
   var knobImg = new Image();
   knobImg.src = "img/needle4.png";
-  console.log(this.g.width);
   this.g.translate(this.w / 2, this.h / 2);
   this.g.rotate(this.startAngle + this.angle(this.cv) + 1.57);
   this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
   return false;
 }
 
+function drawFreqPresetKnob() {
+  var knobImg = new Image();
+  knobImg.src = "img/onoff_knob.png";
+  this.g.translate(this.w / 2, this.h / 2);
+  this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
+  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  return false;
+}
+
 function createButtons() {
-  $("#audio_toggle").on("click", toggleOscillator);
   $("#storefreq").on("click", storeFrequency);
+  $("#disable_textarea").on("click", disableTextarea);
+  $("#audio_toggle").on("click", toggleOscillator);
+}
+
+function disableTextarea() {
+  $("#thoughttext").css("pointer-events", 'none');
 }
 
 // on store frequency click
@@ -125,6 +155,7 @@ function mainFreqChanged(val) {
 }
 
 function toggleOscillator() {
+  console.log("toggleOscillator");
   if (oscillatorRunning) {
     try {
       oscillator.stop();
@@ -132,8 +163,10 @@ function toggleOscillator() {
       oscillator.noteOff(0)
     }
     oscillatorRunning = false;
+    $("#audio_toggle").attr("src", "img/offon.png");
   } else {
     createOscillator();
+    $("#audio_toggle").attr("src", "img/onoff.png");
   }
 }
 
@@ -145,8 +178,12 @@ function initialiseAudio() {
 
 function createOscillator() {
   // create Oscillator node
-  oscillator = audioCtx.createOscillator();
-  gainNode = audioCtx.createGain()
+  try {
+    oscillator = audioCtx.createOscillator();
+    gainNode = audioCtx.createGain()
+  } catch(e) {
+    return
+  }
 
   oscillator.connect(gainNode);
   gainNode.connect(audioCtx.destination)
