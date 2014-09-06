@@ -15,7 +15,6 @@ $(document).ready(function() {
   createKnobs();
   createButtons();
   initialiseAudio();
-  createOscillator();
   $(document).keypress(function(ev) {
     if (!$('textarea#thoughttext').is(":focus")) {
       console.log(ev.which);
@@ -71,8 +70,10 @@ function createKnobs() {
 }
 
 function freqpresetChanged(val) {
-    oscillatorFreq = val * 1000;
+    oscillatorFreq = Math.round(val) * 1000;
+    console.log(val);
     $(".dial").val(oscillatorFreq).trigger('change');
+    mainFreqChanged(oscillatorFreq);
 }
 
 function freqnudgeChanged() {
@@ -96,6 +97,7 @@ function freqnudgeChanged() {
     }
   }
   v = this.cv;
+  mainFreqChanged(oscillatorFreq);
 }
 
 function incr() {
