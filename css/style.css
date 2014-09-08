@@ -1,4 +1,8 @@
 body {
+  background-image: url(../img/back2.png);
+  background-repeat: no-repeat;
+  background-position: 160px 100px;
+  background-size: 710px 600px;
 	background-color: black;
 	color: white;
 }
@@ -9,18 +13,87 @@ div#freqdial {
 	left: 180px;
 	background-image: url(../img/arco.png);
 	background-repeat: no-repeat;
+  background-size: 350px;
 }
 
 div#freqpreset {
   position: absolute;
   top: 400px;
-  left: 700px;
+  left: 300px;
   background-image: url(../img/range_arc.png);
   background-repeat: no-repeat;
   background-position: 7px 0px;
 }
 
+div#volume {
+  position: absolute;
+  top: 500px;
+  left: 225px;
+  background-image: url(../img/volume_arc.png);
+  background-repeat: no-repeat;
+  background-position: 10px 10px;
+}
+
 div#thoughtbox {
   position: absolute;
-  left: 800px;
+  left: 600px;
+  top: 150px;
+}
+
+textarea#thoughttext {
+  position: relative;
+  left: 10px;
+  top: 100px;
+  background-color: #999;
+}
+
+div#freqstorage {
+  color: #666;
+  font-family: sans-serif;
+  font-size: 12px;
+  position: absolute;
+  left: 600px;
+  top: 400px;
+}
+
+div#freqstorage ul {
+  line-height: 30px;
+  vertical-align: top;
+}
+
+div#freqstorage ul li {
+  line-height: 30px;
+  vertical-align: top;
+}
+
+div#sendfreqs {
+  position: relative;
+  left: 10px;
+  border-style: solid;
+  border-width: 2px;
+  font-family: serif;
+  font-size: 20px;
+  text-align: center;
+  padding: 5px;
+}
+
+img#powerlight {
+  position: absolute;
+  width: 30px;
+  top: 150px;
+  left: 550px;
+}
+
+img#audio_toggle {
+  position: absolute;
+  top: 500px;
+  left: 375px;
+}
+
+ul#storedfreqs {
+  list-style-image: url('../img/list-off.png');
+}
+
+ul#storedfreqs li:nth-child(1) {
+  list-style-image: url('../img/list-on.png');
 }

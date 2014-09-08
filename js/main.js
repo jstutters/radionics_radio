@@ -9,17 +9,14 @@ var v;
 var up = 0;
 var down = 0;
 var storedFreqIdx = 1;
+var scanning = false;
 
 // on document load
 $(document).ready(function() {
   createKnobs();
   createButtons();
   initialiseAudio();
-  $(document).keypress(function(ev) {
-    if (!$('textarea#thoughttext').is(":focus")) {
-      console.log(ev.which);
-    }
-  })
+  $(document).keypress(bodyKeyPress);
 });
 
 // create the various knobs
@@ -33,17 +30,31 @@ function createKnobs() {
     'displayInput': false,
     'change': mainFreqChanged,
     'draw': drawMainFreqKnob,
-    'width': 500,
-    'height': 500
+    'width': 350,
+    'height': 350
+  });
+
+  $(".volumeknob").knob({
+    'min': 0,
+    'max': 100,
+    'angleOffset': 200,
+    'angleArc': 320,
+    'displayInput': false,
+    'change': volumeChanged,
+    'draw': drawVolumeKnob,
+    'width': 120,
+    'height': 120
   });
 
   $(".infknob").knob({
     'min': 0,
     'max': 20,
-    'width': 300,
-    'height': 300,
+    'thickness': 0.01,
+    'width': 250,
+    'height': 250,
     'stopper': false,
-    'change': freqnudgeChanged
+    'change': freqnudgeChanged,
+    'release': freqnudgeReleased
   })
 
   $(".freqpresetknob").knob({
@@ -66,17 +77,31 @@ function createKnobs() {
     $(".freqpresetknob")
       .val(1)
       .trigger('change');
+    $(".volumeknob")
+      .val(1)
+      .trigger('change');
   }, 500);
 }
 
 function freqpresetChanged(val) {
-    oscillatorFreq = Math.round(val) * 1000;
-    console.log(val);
-    $(".dial").val(oscillatorFreq).trigger('change');
-    mainFreqChanged(oscillatorFreq);
+  oscillatorFreq = Math.round(val) * 1000;
+  console.log(val);
+  $(".dial").val(oscillatorFreq).trigger('change');
+  mainFreqChanged(oscillatorFreq);
+}
+
+function volumeChanged(val) {
+  try {
+    gainNode.gain.value = val / 100.0;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function freqnudgeChanged() {
+  if (!scanning) {
+    return;
+  }
   if (v > this.cv) {
     if (up) {
       decr();
@@ -113,13 +138,23 @@ function decr() {
 function drawMainFreqKnob() {
   var knobImg = new Image();
   knobImg.src = "img/needle4.png";
-  this.g.translate(this.w / 2, this.h / 2);
+  this.g.translate(this.w / 2, this.h / 2 - 20);
+  this.g.scale(0.5, 0.5);
   this.g.rotate(this.startAngle + this.angle(this.cv) + 1.57);
   this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
   return false;
 }
 
 function drawFreqPresetKnob() {
+  var knobImg = new Image();
+  knobImg.src = "img/onoff_knob.png";
+  this.g.translate(this.w / 2 + 5, this.h / 2);
+  this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
+  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  return false;
+}
+
+function drawVolumeKnob() {
   var knobImg = new Image();
   knobImg.src = "img/onoff_knob.png";
   this.g.translate(this.w / 2, this.h / 2);
@@ -130,28 +165,55 @@ function drawFreqPresetKnob() {
 
 function createButtons() {
   $("#storefreq").on("click", storeFrequency);
-  $("#disable_textarea").on("click", disableTextarea);
   $("#audio_toggle").on("click", toggleOscillator);
 }
 
-function disableTextarea() {
-  $("#thoughttext").css("pointer-events", 'none');
+function bodyKeyPress(ev) {
+  console.log(ev.which);
+  if (!$('textarea#thoughttext').is(":focus")) {
+    if (ev.which == 49) {
+      console.log("disabling textarea")
+      $("#thoughttext").css("pointer-events", 'none');
+      scanning = true;
+      var infknob = $('#infknob').knob().children("canvas").trigger("mousedown")
+    }
+  }
+}
+
+function freqnudgeReleased() {
+  console.log("enabling textarea")
+  $("#thoughttext").css("pointer-events", 'all');
+  scanning = false;
+  storeFrequency();
+}
+
+function dispatchMouseEvent(target, var_args) {
+  var e = document.createEvent("MouseEvents");
+  e.initEvent.apply(e, Array.prototype.slice.call(arguments, 1));
+  console.log(target);
+  target.dispatchEvent(e);
 }
 
 // on store frequency click
 function storeFrequency() {
-    var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
-    $(selector).text(oscillatorFreq.toString());
-    storedFreqIdx++;
+  if (storedFreqIdx > 6) {
+    return;
+  }
+  var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
+  $(selector).text(storedFreqIdx.toString() + " = " + oscillatorFreq.toString() + " Hz");
+  $(selector).css("list-style-image", "url('../img/list-off.png')");
+  storedFreqIdx++;
+  var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
+  $(selector).css("list-style-image", "url('../img/list-on.png')");
 }
 
 // on change of main frequency knob
 function mainFreqChanged(val) {
   try {
-      oscillator.frequency.value = val;
+    oscillator.frequency.value = val;
   } catch (e) {
-        console.log(e);
-    }
+    console.log(e);
+  }
   oscillatorFreq = val;
   console.log("setting frequency to", val);
 }
@@ -166,9 +228,11 @@ function toggleOscillator() {
     }
     oscillatorRunning = false;
     $("#audio_toggle").attr("src", "img/offon.png");
+    $("#powerlight").attr("src", "img/lightoff.png")
   } else {
     createOscillator();
     $("#audio_toggle").attr("src", "img/onoff.png");
+    $("#powerlight").attr("src", "img/lighton.png")
   }
 }
 

@@ -9,34 +9,41 @@
 </head>
 
 <body>
+  <img id="powerlight" src="img/lightoff.png">
+
   <div id="freqdial">
     <input value="50" class="dial">
   </div>
 
   <div id="thoughtbox">
     <div id="freqnudge">
-    	<input class="infknob" data-cursor="true" data-displayInput="false">
+    	<input id="infknob" class="infknob" data-cursor="true" data-displayInput="false">
   	</div>
-    <textarea id="thoughttext" cols="20" rows="5" style="position: relative; top: -210px; left: 35px"></textarea>
+    <textarea id="thoughttext" cols="20" rows="7" style="position: relative; top: -210px; left: 35px"></textarea>
   </div>
 
 	<div id="freqpreset">
 		<input class="freqpresetknob" value="1">
 	</div>
 
+  <div id="volume">
+    <input class="volumeknob" value="0.5">
+  </div>
+
   <img id="audio_toggle" src="img/offon.png">
 
   <div id="disable_textarea"><p>Disable textarea</p></div>
 
   <div id="freqstorage">
-    <div id="storefreq"><p>Store frequency</p></div>
     <ul id="storedfreqs">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+      <li id="c1">1 = 0.0 Hz +</li>
+      <li>2 = 0.0 Hz +</li>
+      <li>3 = 0.0 Hz +</li>
+      <li>4 = 0.0 Hz +</li>
+      <li>5 = 0.0 Hz +</li>
+      <li>6 = 0.0 Hz +</li>
     </ul>
+    <div id="sendfreqs">SEND ALL</div>
   </div>
 </body>
 </html>
