@@ -10,6 +10,7 @@ var up = 0;
 var down = 0;
 var storedFreqIdx = 1;
 var scanning = false;
+var instructionsVisible = 0;
 
 // on document load
 $(document).ready(function() {
@@ -78,7 +79,7 @@ function createKnobs() {
       .val(1)
       .trigger('change');
     $(".volumeknob")
-      .val(1)
+      .val(100)
       .trigger('change');
   }, 500);
 }
@@ -164,18 +165,36 @@ function drawVolumeKnob() {
 }
 
 function createButtons() {
-  $("#storefreq").on("click", storeFrequency);
   $("#audio_toggle").on("click", toggleOscillator);
+  $("#show_instructions").on("click", function() {$("#instructions").show()});
+  $("#hide_instructions").on("click", function() {$("#instructions").hide()});
+  $("#storedfreqs").children('li').each(function() {
+    $(this).on("click", selectedStoredFreq);
+  });
+  $("#start_button").on("click", function() {$("#start_banner").hide()});
+}
+
+function selectedStoredFreq() {
+  console.log($(this));
+  var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
+  $(selector).css("list-style-image", "url('img/list-off.png')");
+  storedFreqIdx = $("#storedfreqs li").index(this) + 1;
+  var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
+  $(selector).css("list-style-image", "url('img/list-on.png')");
 }
 
 function bodyKeyPress(ev) {
   console.log(ev.which);
   if (!$('textarea#thoughttext').is(":focus")) {
     if (ev.which == 49) {
-      console.log("disabling textarea")
+      console.log("disabling textarea");
       $("#thoughttext").css("pointer-events", 'none');
       scanning = true;
-      var infknob = $('#infknob').knob().children("canvas").trigger("mousedown")
+      $('#infknob').knob().children("canvas").trigger("mousedown")
+    } else if (ev.which == 50) {
+      console.log("cancelling search");
+      scanning = false;
+      $('#infknob').knob().children("canvas").trigger("mouseup")
     }
   }
 }
@@ -183,15 +202,10 @@ function bodyKeyPress(ev) {
 function freqnudgeReleased() {
   console.log("enabling textarea")
   $("#thoughttext").css("pointer-events", 'all');
+  if (scanning) {
+    storeFrequency();
+  }
   scanning = false;
-  storeFrequency();
-}
-
-function dispatchMouseEvent(target, var_args) {
-  var e = document.createEvent("MouseEvents");
-  e.initEvent.apply(e, Array.prototype.slice.call(arguments, 1));
-  console.log(target);
-  target.dispatchEvent(e);
 }
 
 // on store frequency click
@@ -201,10 +215,10 @@ function storeFrequency() {
   }
   var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
   $(selector).text(storedFreqIdx.toString() + " = " + oscillatorFreq.toString() + " Hz");
-  $(selector).css("list-style-image", "url('../img/list-off.png')");
+  $(selector).css("list-style-image", "url('img/list-off.png')");
   storedFreqIdx++;
   var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
-  $(selector).css("list-style-image", "url('../img/list-on.png')");
+  $(selector).css("list-style-image", "url('img/list-on.png')");
 }
 
 // on change of main frequency knob
