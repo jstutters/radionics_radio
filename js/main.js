@@ -172,6 +172,18 @@ function createButtons() {
     $(this).on("click", selectedStoredFreq);
   });
   $("#start_button").on("click", function() {$("#start_banner").hide()});
+  $("#sendfreqs").on("click", function() {fillSendForm(); $("#send_form").show()});
+  $("#close_send_form").on("click", function() {$("#send_form").hide()});
+}
+
+function fillSendForm() {
+  $("#username").val("foo");
+  $("#thought").val($("#thoughttext").val());
+  var freqs = "";
+  $("#storedfreqs").children('li').each(function() {
+    freqs += $(this).text() + "; ";
+  }); 
+  $("#frequencies").val(freqs);
 }
 
 function selectedStoredFreq() {
