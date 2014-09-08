@@ -80,8 +80,8 @@ div#sendfreqs {
 img#powerlight {
   position: absolute;
   width: 30px;
-  top: 150px;
-  left: 550px;
+  top: 140px;
+  left: 500px;
 }
 
 img#audio_toggle {
@@ -100,11 +100,11 @@ ul#storedfreqs li:nth-child(1) {
 
 div#instructions {
   position: absolute;
-  left: 100px;
-  top: 50px;
+  left: 190px;
+  top: 135px;
   background: #000;
   color: #fff;
-  width: 600px;
+  width: 630px;
   display: none;
   font-size: 12px;
   padding: 10px;
@@ -127,9 +127,10 @@ div#send_form {
 }
 
 div#start_banner {
+  font-family: sans-serif;
   position: absolute;
-  left: 100px;
-  top: 50px;
+  left: 205px;
+  top: 200px;
   background: #000;
   color: #fff;
   width: 600px;
@@ -140,13 +141,43 @@ div#start_banner {
   text-align: center;
 }
 
+div#start_banner a:link {
+  text-decoration: none;
+  color: rgb(254, 246, 228);
+}
+
+div#start_banner a:visited {
+  text-decoration: none;
+  color: rgb(254, 246, 228);
+}
+
+div#start_banner a:hover {
+  text-decoration: underline;
+}
+
 div#start_button {
   border-style: solid;
   border-width: 1px;
+  background-image: url(../img/touch.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 200px;
+  height: 100px;
+  background-color: #eee;
+  color: #000;
+  font-size: 20px;
+  position: relative;
+  left: 200px
+}
+
+div#start_button h5 {
+  position: relative;
+  top: 10px;
 }
 
 div#show_instructions {
   position: absolute;
-  left: 200px;
+  left: 180px;
   top: 700px;
+  font-size: 14px;
 }
