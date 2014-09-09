@@ -250,7 +250,7 @@ function storeFrequency() {
     return;
   }
   var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
-  $(selector).text(storedFreqIdx.toString() + " = " + oscillatorFreq.toString() + " Hz");
+  $(selector).text(storedFreqIdx.toString() + " = " + oscillatorFreq.toFixed(2).toString() + " Hz");
   $(selector).css("list-style-image", "url('img/list-off.png')");
   storedFreqIdx++;
   var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
