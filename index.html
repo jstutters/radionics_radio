@@ -58,12 +58,11 @@
 
   <div id="send_form">
     <h1 style="position:relative;top:-10px; color:white;">RADIONICS RADIO</h3>
-    <form method="POST" name="contactform" action="contact-form-handler.php">
+    <form onsubmit="return doSubmit();">
       <p>Username: <input type="text" id="username" name="username"></p>
       <input type="hidden" id="thought" name="thought">
       <input type="hidden" id="frequencies" name="frequencies">
-      <input type="submit" name="submit" id="sendall" value="Send">
-      <a href="#" id="close_send_form">Cancel</a>
+      <a href="#" onclick="doSubmit();">Submit</a> <a href="#" id="close_send_form">Cancel</a>
     </form>
   </div>
 

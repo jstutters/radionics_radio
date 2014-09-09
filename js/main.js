@@ -313,3 +313,13 @@ function createOscillator() {
   }
   oscillatorRunning = true;
 } 
+
+function doSubmit() {
+  var data = {"thought": $("#thought").val(),
+    "frequencies": $("#frequencies").val(),
+    "username": $("#username").val
+  };
+  $.post("contact-form-handler.php", data);
+  $("#send_form").hide();
+  alert("Thankyou for your submission");
+}

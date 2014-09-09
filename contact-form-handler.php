@@ -1,5 +1,4 @@
 <?php
-
 $errors = '';
 $myemail = 'jstutters@jeremah.co.uk';
 if(empty($_POST['username']) || empty($_POST['thought']) || empty($_POST['frequencies'])) {
