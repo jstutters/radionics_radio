@@ -87,10 +87,14 @@ img#powerlight {
   left: 500px;
 }
 
-img#audio_toggle {
+img#audio_toggle_on, img#audio_toggle_off {
   position: absolute;
   top: 500px;
   left: 375px;
+}
+
+img#audio_toggle_on {
+  display: none;
 }
 
 ul#storedfreqs {

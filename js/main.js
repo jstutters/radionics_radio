@@ -189,7 +189,8 @@ function drawVolumeKnob() {
 }
 
 function createButtons() {
-  $("#audio_toggle").on("click", toggleOscillator);
+  $("#audio_toggle_on").on("click", toggleOscillator);
+  $("#audio_toggle_off").on("click", toggleOscillator);
   $("#show_instructions").on("click", function() {$("#instructions").show()});
   $("#hide_instructions").on("click", function() {$("#instructions").hide()});
   $("#storedfreqs").children('li').each(function() {
@@ -276,11 +277,13 @@ function toggleOscillator() {
       oscillator.noteOff(0)
     }
     oscillatorRunning = false;
-    $("#audio_toggle").attr("src", "img/offon.png");
+    $("#audio_toggle_off").show();
+    $("#audio_toggle_on").hide();
     $("#powerlight").attr("src", "img/lightoff.png")
   } else {
     createOscillator();
-    $("#audio_toggle").attr("src", "img/onoff.png");
+    $("#audio_toggle_on").show();
+    $("#audio_toggle_off").hide();
     $("#powerlight").attr("src", "img/lighton.png")
   }
 }
