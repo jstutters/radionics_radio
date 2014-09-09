@@ -36,15 +36,18 @@ div#volume {
 
 div#thoughtbox {
   position: absolute;
-  left: 600px;
+  left: 570px;
   top: 150px;
 }
 
 textarea#thoughttext {
   position: relative;
-  left: 10px;
-  top: 100px;
+  left: 38px;
+  top: -170px;
   background-color: #999;
+  font-size: 20px;
+  text-align: center;
+  color: white;
 }
 
 div#freqstorage {
@@ -113,12 +116,13 @@ div#instructions {
 }
 
 div#send_form {
+  font-family: sans-serif;
   position: absolute;
-  left: 100px;
-  top: 50px;
+  left: 405px;
+  top: 300px;
   background: #000;
   color: #fff;
-  width: 600px;
+  width: 220px;
   display: none;
   font-size: 12px;
   padding: 10px;

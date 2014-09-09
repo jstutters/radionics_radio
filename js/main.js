@@ -11,6 +11,8 @@ var down = 0;
 var storedFreqIdx = 1;
 var scanning = false;
 var instructionsVisible = 0;
+var knobImg;
+var needleImg;
 
 // on document load
 $(document).ready(function() {
@@ -18,7 +20,35 @@ $(document).ready(function() {
   createButtons();
   initialiseAudio();
   $(document).keypress(bodyKeyPress);
+  loadImages();
 });
+
+function loadImages() {
+  needleImg = new Image()
+  needleImg.onerror = function() {
+    console.log("error loading needleImg");
+  }
+  needleImg.onload = function() {
+    $(".dial")
+      .val(oscillatorFreq)
+      .trigger('change');   
+  };
+  needleImg.src = "../img/needle4.png";
+
+  knobImg = new Image()
+  needleImg.onerror = function() {
+    console.log("error loading knobImg");
+  }
+  knobImg.onload = function() {
+    $(".freqpresetknob")
+      .val(1)
+      .trigger('change');
+    $(".volumeknob")
+      .val(100)
+      .trigger('change');
+  };
+  knobImg.src = "../img/onoff_knob.png";
+}
 
 // create the various knobs
 function createKnobs() {
@@ -71,7 +101,7 @@ function createKnobs() {
     'height': 100,
   })
 
-  window.setTimeout(function() {
+  /*window.setTimeout(function() {
     $(".dial")
       .val(oscillatorFreq)
       .trigger('change');
@@ -81,7 +111,7 @@ function createKnobs() {
     $(".volumeknob")
       .val(100)
       .trigger('change');
-  }, 500);
+  }, 500); */
 }
 
 function freqpresetChanged(val) {
@@ -137,30 +167,36 @@ function decr() {
 }
 
 function drawMainFreqKnob() {
-  var knobImg = new Image();
-  knobImg.src = "img/needle4.png";
   this.g.translate(this.w / 2, this.h / 2 - 20);
   this.g.scale(0.5, 0.5);
   this.g.rotate(this.startAngle + this.angle(this.cv) + 1.57);
-  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  try {
+    this.g.drawImage(needleImg, -needleImg.width / 2, -needleImg.height / 2);
+  } catch (e) {
+    console.log(e)
+  }
   return false;
 }
 
 function drawFreqPresetKnob() {
-  var knobImg = new Image();
-  knobImg.src = "img/onoff_knob.png";
   this.g.translate(this.w / 2 + 5, this.h / 2);
   this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
-  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  try {
+    this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  } catch(e) {
+    console.log(e);
+  }
   return false;
 }
 
 function drawVolumeKnob() {
-  var knobImg = new Image();
-  knobImg.src = "img/onoff_knob.png";
   this.g.translate(this.w / 2, this.h / 2);
   this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
-  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  try {
+    this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  } catch (e) {
+    console.log(e);
+  }
   return false;
 }
 
@@ -177,7 +213,6 @@ function createButtons() {
 }
 
 function fillSendForm() {
-  $("#username").val("foo");
   $("#thought").val($("#thoughttext").val());
   var freqs = "";
   $("#storedfreqs").children('li').each(function() {
