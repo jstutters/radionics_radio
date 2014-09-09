@@ -44,7 +44,7 @@ function loadImages() {
       .val(1)
       .trigger('change');
     $(".volumeknob")
-      .val(100)
+      .val(50)
       .trigger('change');
   };
   knobImg.src = "../img/onoff_knob.png";
@@ -100,18 +100,6 @@ function createKnobs() {
     'width': 100,
     'height': 100,
   })
-
-  /*window.setTimeout(function() {
-    $(".dial")
-      .val(oscillatorFreq)
-      .trigger('change');
-    $(".freqpresetknob")
-      .val(1)
-      .trigger('change');
-    $(".volumeknob")
-      .val(100)
-      .trigger('change');
-  }, 500); */
 }
 
 function freqpresetChanged(val) {
@@ -315,8 +303,8 @@ function createOscillator() {
   oscillator.connect(gainNode);
   gainNode.connect(audioCtx.destination)
 
-  gainNode.gain.value = 0.01;
-  oscillator.type = 'square';
+  gainNode.gain.value = 0.5;
+  oscillator.type = 'sine';
   oscillator.frequency.value = oscillatorFreq; // value in hertz
   try {
     oscillator.start(0);
