@@ -36,15 +36,18 @@ div#volume {
 
 div#thoughtbox {
   position: absolute;
-  left: 600px;
+  left: 570px;
   top: 150px;
 }
 
 textarea#thoughttext {
   position: relative;
-  left: 10px;
-  top: 100px;
+  left: 38px;
+  top: -170px;
   background-color: #999;
+  font-size: 20px;
+  text-align: center;
+  color: white;
 }
 
 div#freqstorage {
@@ -84,10 +87,14 @@ img#powerlight {
   left: 500px;
 }
 
-img#audio_toggle {
+img#audio_toggle_on, img#audio_toggle_off {
   position: absolute;
   top: 500px;
   left: 375px;
+}
+
+img#audio_toggle_on {
+  display: none;
 }
 
 ul#storedfreqs {
@@ -119,12 +126,13 @@ div#instructions ol {
 }
 
 div#send_form {
+  font-family: sans-serif;
   position: absolute;
-  left: 100px;
-  top: 50px;
+  left: 405px;
+  top: 300px;
   background: #000;
   color: #fff;
-  width: 600px;
+  width: 220px;
   display: none;
   font-size: 12px;
   padding: 10px;
@@ -133,18 +141,27 @@ div#send_form {
 }
 
 div#start_banner {
+  background-image: url(../img/back2.png);
+  background-size: 500px 400px;
+  background-repeat: no-repeat;
   font-family: sans-serif;
   position: absolute;
-  left: 205px;
+  left: 260px;
   top: 200px;
-  background: #000;
   color: #fff;
-  width: 600px;
+  width: 500px;
+  height: 400px;
   font-size: 12px;
   padding: 10px;
-  border-style: solid;
-  border-width: 2px;
   text-align: center;
+}
+
+div#start_banner h1 {
+  font-weight: lighter;
+}
+
+div#start_banner h2 {
+  font-weight: lighter;
 }
 
 div#start_banner a:link {
@@ -173,7 +190,7 @@ div#start_button {
   color: #000;
   font-size: 20px;
   position: relative;
-  left: 200px
+  left: 150px
 }
 
 div#start_button h5 {

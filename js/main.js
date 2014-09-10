@@ -11,6 +11,8 @@ var down = 0;
 var storedFreqIdx = 1;
 var scanning = false;
 var instructionsVisible = 0;
+var knobImg;
+var needleImg;
 
 // on document load
 $(document).ready(function() {
@@ -18,7 +20,35 @@ $(document).ready(function() {
   createButtons();
   initialiseAudio();
   $(document).keypress(bodyKeyPress);
+  loadImages();
 });
+
+function loadImages() {
+  needleImg = new Image()
+  needleImg.onerror = function() {
+    console.log("error loading needleImg");
+  }
+  needleImg.onload = function() {
+    $(".dial")
+      .val(oscillatorFreq)
+      .trigger('change');   
+  };
+  needleImg.src = "../img/needle4.png";
+
+  knobImg = new Image()
+  needleImg.onerror = function() {
+    console.log("error loading knobImg");
+  }
+  knobImg.onload = function() {
+    $(".freqpresetknob")
+      .val(1)
+      .trigger('change');
+    $(".volumeknob")
+      .val(50)
+      .trigger('change');
+  };
+  knobImg.src = "../img/onoff_knob.png";
+}
 
 // create the various knobs
 function createKnobs() {
@@ -70,18 +100,6 @@ function createKnobs() {
     'width': 100,
     'height': 100,
   })
-
-  window.setTimeout(function() {
-    $(".dial")
-      .val(oscillatorFreq)
-      .trigger('change');
-    $(".freqpresetknob")
-      .val(1)
-      .trigger('change');
-    $(".volumeknob")
-      .val(100)
-      .trigger('change');
-  }, 500);
 }
 
 function freqpresetChanged(val) {
@@ -137,35 +155,42 @@ function decr() {
 }
 
 function drawMainFreqKnob() {
-  var knobImg = new Image();
-  knobImg.src = "img/needle4.png";
   this.g.translate(this.w / 2, this.h / 2 - 20);
   this.g.scale(0.5, 0.5);
   this.g.rotate(this.startAngle + this.angle(this.cv) + 1.57);
-  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  try {
+    this.g.drawImage(needleImg, -needleImg.width / 2, -needleImg.height / 2);
+  } catch (e) {
+    console.log(e)
+  }
   return false;
 }
 
 function drawFreqPresetKnob() {
-  var knobImg = new Image();
-  knobImg.src = "img/onoff_knob.png";
   this.g.translate(this.w / 2 + 5, this.h / 2);
   this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
-  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  try {
+    this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  } catch(e) {
+    console.log(e);
+  }
   return false;
 }
 
 function drawVolumeKnob() {
-  var knobImg = new Image();
-  knobImg.src = "img/onoff_knob.png";
   this.g.translate(this.w / 2, this.h / 2);
   this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
-  this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  try {
+    this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
+  } catch (e) {
+    console.log(e);
+  }
   return false;
 }
 
 function createButtons() {
-  $("#audio_toggle").on("click", toggleOscillator);
+  $("#audio_toggle_on").on("click", toggleOscillator);
+  $("#audio_toggle_off").on("click", toggleOscillator);
   $("#show_instructions").on("click", function() {$("#instructions").show()});
   $("#hide_instructions").on("click", function() {$("#instructions").hide()});
   $("#storedfreqs").children('li').each(function() {
@@ -177,7 +202,6 @@ function createButtons() {
 }
 
 function fillSendForm() {
-  $("#username").val("foo");
   $("#thought").val($("#thoughttext").val());
   var freqs = "";
   $("#storedfreqs").children('li').each(function() {
@@ -226,7 +250,7 @@ function storeFrequency() {
     return;
   }
   var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
-  $(selector).text(storedFreqIdx.toString() + " = " + oscillatorFreq.toString() + " Hz");
+  $(selector).text(storedFreqIdx.toString() + " = " + oscillatorFreq.toFixed(2).toString() + " Hz");
   $(selector).css("list-style-image", "url('img/list-off.png')");
   storedFreqIdx++;
   var selector = "ul#storedfreqs li:nth-child(" + storedFreqIdx.toString() +")";
@@ -253,11 +277,13 @@ function toggleOscillator() {
       oscillator.noteOff(0)
     }
     oscillatorRunning = false;
-    $("#audio_toggle").attr("src", "img/offon.png");
+    $("#audio_toggle_off").show();
+    $("#audio_toggle_on").hide();
     $("#powerlight").attr("src", "img/lightoff.png")
   } else {
     createOscillator();
-    $("#audio_toggle").attr("src", "img/onoff.png");
+    $("#audio_toggle_on").show();
+    $("#audio_toggle_off").hide();
     $("#powerlight").attr("src", "img/lighton.png")
   }
 }
@@ -280,8 +306,8 @@ function createOscillator() {
   oscillator.connect(gainNode);
   gainNode.connect(audioCtx.destination)
 
-  gainNode.gain.value = 0.01;
-  oscillator.type = 'square';
+  gainNode.gain.value = 0.5;
+  oscillator.type = 'sine';
   oscillator.frequency.value = oscillatorFreq; // value in hertz
   try {
     oscillator.start(0);
@@ -290,3 +316,13 @@ function createOscillator() {
   }
   oscillatorRunning = true;
 } 
+
+function doSubmit() {
+  var data = {"thought": $("#thought").val(),
+    "frequencies": $("#frequencies").val(),
+    "username": $("#username").val
+  };
+  $.post("contact-form-handler.php", data);
+  $("#send_form").hide();
+  alert("Thankyou for your submission");
+}

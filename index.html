@@ -19,7 +19,7 @@
     <div id="freqnudge">
     	<input id="infknob" class="infknob" data-cursor="true" data-displayInput="false">
     </div>
-    <textarea id="thoughttext" cols="15" rows="5" style="position: relative; top: -210px; left: 35px"></textarea>
+    <textarea id="thoughttext" cols="12" rows="3">THOUGHT BOX</textarea>
   </div>
 
   <div id="freqpreset">
@@ -27,10 +27,11 @@
   </div>
 
   <div id="volume">
-    <input class="volumeknob" value="0.5">
+    <input class="volumeknob" value="50">
   </div>
 
-  <img id="audio_toggle" src="img/offon.png">
+  <img id="audio_toggle_on" src="img/onoff.png">
+  <img id="audio_toggle_off" src="img/offon.png">
 
   <div id="freqstorage">
     <ul id="storedfreqs">
@@ -57,13 +58,12 @@
   </div>
 
   <div id="send_form">
-    <h3 style="position:relative;top:-10px; color:white;">RADIONICS RADIO></h3>
-    <form method="POST" name="contactform" action="contact-form-handler.php">
+    <h1 style="position:relative;top:-10px; color:white;">RADIONICS RADIO</h3>
+    <form onsubmit="return doSubmit();">
       <p>Username: <input type="text" id="username" name="username"></p>
       <input type="hidden" id="thought" name="thought">
       <input type="hidden" id="frequencies" name="frequencies">
-      <input type="submit" name="submit" id="sendall" value="Send">
-      <div id="close_send_form">Cancel</div>
+      <a href="#" onclick="doSubmit();">Submit</a> <a href="#" id="close_send_form">Cancel</a>
     </form>
   </div>
 
