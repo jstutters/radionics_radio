@@ -5,12 +5,13 @@
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="js/knob/js/jquery.knob.js"></script>
   <script src="js/main.js"></script>
+  <meta charset="UTF-8">
   <link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico'>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <img id="powerlight" src="img/lightoff.png">
+  <img id="powerlight" src="img/lightoff.png" alt="Power light">
 
   <div id="freqdial">
     <input value="50" class="dial">
@@ -33,8 +34,8 @@
     <input class="volumeknob" value="50">
   </div>
 
-  <img id="audio_toggle_on" src="img/onoff.png">
-  <img id="audio_toggle_off" src="img/offon.png">
+  <img id="audio_toggle_on" src="img/onoff.png" alt="Power on knob">
+  <img id="audio_toggle_off" src="img/offon.png" alt="Power off knob">
 
   <div id="freqstorage">
     <ul id="storedfreqs">
@@ -63,7 +64,7 @@
   </div>
 
   <div id="send_form">
-    <h1 style="position:relative;top:-10px; color:white;">RADIONICS RADIO</h3>
+    <h1 style="position:relative;top:-10px; color:white;">RADIONICS RADIO</h1>
     <form onsubmit="return doSubmit();">
       <p>Username: <input type="text" id="username" name="username"></p>
       <input type="hidden" id="thought" name="thought">
