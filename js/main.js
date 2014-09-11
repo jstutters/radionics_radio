@@ -286,10 +286,11 @@ function toggleOscillator() {
     $("#audio_toggle_on").hide();
     $("#powerlight").attr("src", "img/lightoff.png")
   } else {
-    createOscillator();
-    $("#audio_toggle_on").show();
-    $("#audio_toggle_off").hide();
-    $("#powerlight").attr("src", "img/lighton.png")
+    if (createOscillator()) {
+      $("#audio_toggle_on").show();
+      $("#audio_toggle_off").hide();
+      $("#powerlight").attr("src", "img/lighton.png")
+    }
   }
 }
 
@@ -297,6 +298,10 @@ function initialiseAudio() {
   // create web audio api context
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   console.log("audio initialised");
+  console.log(audioCtx);
+  if (audioCtx == null) {
+    alert("Sorry, your browser does not support webaudio.  Please try the latest versions of Google Chrome, Mozilla Firefox or Apple Safari.");
+  }
 }
 
 function createOscillator() {
@@ -305,7 +310,9 @@ function createOscillator() {
     oscillator = audioCtx.createOscillator();
     gainNode = audioCtx.createGain()
   } catch(e) {
-    return
+    alert("Sorry, your browser does not support webaudio.  Please try the latest versions of Google Chrome, Mozilla Firefox or Apple Safari.");
+    console.log(e);
+    return false;
   }
 
   oscillator.connect(gainNode);
@@ -320,6 +327,7 @@ function createOscillator() {
     oscillator.noteOn(0);
   }
   oscillatorRunning = true;
+  return true;
 } 
 
 function doSubmit() {
