@@ -16,6 +16,17 @@ div#freqdial {
   background-size: 350px;
 }
 
+div#freqreadout {
+  position: absolute;
+  top: 370px;
+  left: 500px;
+  font-size: 16px;
+}
+
+div#freqnudge {
+  visibility: hidden;
+}
+
 div#freqpreset {
   position: absolute;
   top: 400px;
@@ -201,6 +212,6 @@ div#start_button h5 {
 div#show_instructions {
   position: absolute;
   left: 180px;
-  top: 700px;
-  font-size: 14px;
+  top: 90px;
+  font-size: 18px;
 }

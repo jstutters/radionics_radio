@@ -33,7 +33,7 @@ function loadImages() {
       .val(oscillatorFreq)
       .trigger('change');   
   };
-  needleImg.src = "../img/needle4.png";
+  needleImg.src = "img/needle4.png";
 
   knobImg = new Image()
   needleImg.onerror = function() {
@@ -47,7 +47,7 @@ function loadImages() {
       .val(50)
       .trigger('change');
   };
-  knobImg.src = "../img/onoff_knob.png";
+  knobImg.src = "img/onoff_knob.png";
 }
 
 // create the various knobs
@@ -80,12 +80,13 @@ function createKnobs() {
   $(".infknob").knob({
     'min': 0,
     'max': 20,
-    'thickness': 0.01,
+    'thickness': 0.03,
     'width': 250,
     'height': 250,
     'stopper': false,
+    'cursor': 0.1,
     'change': freqnudgeChanged,
-    'release': freqnudgeReleased
+    'release': freqnudgeReleased,
   })
 
   $(".freqpresetknob").knob({
@@ -145,12 +146,12 @@ function freqnudgeChanged() {
 }
 
 function incr() {
-  oscillatorFreq++;
+  oscillatorFreq += 0.4;
   $(".dial").val(oscillatorFreq).trigger('change');
 }
 
 function decr() {
-  oscillatorFreq--;
+  oscillatorFreq -= 0.4;
   $(".dial").val(oscillatorFreq).trigger('change');
 }
 
@@ -225,11 +226,13 @@ function bodyKeyPress(ev) {
     if (ev.which == 49) {
       console.log("disabling textarea");
       $("#thoughttext").css("pointer-events", 'none');
+      $("#freqnudge").css("visibility", "visible");
       scanning = true;
       $('#infknob').knob().children("canvas").trigger("mousedown")
     } else if (ev.which == 50) {
       console.log("cancelling search");
       scanning = false;
+      $("#freqnudge").css("visibility", "hidden");
       $('#infknob').knob().children("canvas").trigger("mouseup")
     }
   }
@@ -238,6 +241,7 @@ function bodyKeyPress(ev) {
 function freqnudgeReleased() {
   console.log("enabling textarea")
   $("#thoughttext").css("pointer-events", 'all');
+  $("#freqnudge").css("visibility", "hidden");
   if (scanning) {
     storeFrequency();
   }
@@ -265,6 +269,7 @@ function mainFreqChanged(val) {
     console.log(e);
   }
   oscillatorFreq = val;
+  $("#freqreadout").text(oscillatorFreq.toFixed(2).toString() + " Hz");
   console.log("setting frequency to", val);
 }
 
