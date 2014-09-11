@@ -153,7 +153,7 @@ div#send_form {
 
 div#start_banner {
   background-image: url(../img/back2.png);
-  background-size: 500px 400px;
+  background-size: 500px 440px;
   background-repeat: no-repeat;
   font-family: sans-serif;
   position: absolute;
@@ -161,7 +161,7 @@ div#start_banner {
   top: 200px;
   color: #fff;
   width: 500px;
-  height: 400px;
+  height: 440px;
   font-size: 12px;
   padding: 10px;
   text-align: center;
