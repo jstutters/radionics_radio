@@ -212,7 +212,7 @@ function createButtons() {
   $("#storedfreqs").children('li').each(function() {
     $(this).on("click", selectedStoredFreq);
   });
-  $("#start_button").on("click", function() {$("#start_banner").hide()});
+  $("#start_button").on("click", function() {$("#start_banner").hide(); $("#instructions").show()});
   $("#sendfreqs").on("click", function() {fillSendForm(); $("#send_form").show()});
   $("#close_send_form").on("click", function() {$("#send_form").hide()});
 }
