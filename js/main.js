@@ -167,11 +167,9 @@ function deviceBackingPixelRatio(ctx) {
 
 function drawMainFreqKnob() {
   this.g.translate(this.g.canvas.width / 2, this.g.canvas.height / 2 - 20);
-  var scaleFactor = 0.5 * deviceBackingPixelRatio(this.g);
+  scaleFactor = 0.5 * deviceBackingPixelRatio(this.g);
   this.g.scale(scaleFactor, scaleFactor);
   this.g.rotate(this.startAngle + this.angle(this.cv) + 1.57);
-  var r = deviceBackingPixelRatio(this.g);
-  this.g.scale(r, r);
   try {
     this.g.drawImage(needleImg, - needleImg.width / 2, -needleImg.height / 2);
   } catch (e) {
@@ -181,8 +179,8 @@ function drawMainFreqKnob() {
 }
 
 function drawFreqPresetKnob() {
-  this.g.translate(this.g.canvas.width / 2 + 5, this.g.canvas.height / 2);
-  var scaleFactor = deviceBackingPixelRatio(this.g);
+  this.g.translate(this.g.canvas.width / 2, this.g.canvas.height / 2);
+  scaleFactor = deviceBackingPixelRatio(this.g) * 0.5;
   this.g.scale(scaleFactor, scaleFactor);
   this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
   try {
@@ -195,6 +193,8 @@ function drawFreqPresetKnob() {
 
 function drawVolumeKnob() {
   this.g.translate(this.g.canvas.width / 2, this.g.canvas.height / 2);
+  scaleFactor = deviceBackingPixelRatio(this.g) * 0.5;
+  this.g.scale(scaleFactor, scaleFactor);
   this.g.rotate(this.startAngle + this.angle(this.cv) - 0.7);
   try {
     this.g.drawImage(knobImg, -knobImg.width / 2, -knobImg.height / 2);
