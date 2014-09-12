@@ -242,12 +242,12 @@ function bodyKeyPress(ev) {
       console.log("disabling textarea");
       $("#thoughttext").css("pointer-events", 'none');
       $("#freqnudge").css("visibility", "visible");
+      $("#darken").show();
       scanning = true;
       $('#infknob').knob().children("canvas").trigger("mousedown")
     } else if (ev.which == 50) {
       console.log("cancelling search");
       scanning = false;
-      $("#freqnudge").css("visibility", "hidden");
       $('#infknob').knob().children("canvas").trigger("mouseup")
     }
   }
@@ -257,6 +257,7 @@ function freqnudgeReleased() {
   console.log("enabling textarea")
   $("#thoughttext").css("pointer-events", 'all');
   $("#freqnudge").css("visibility", "hidden");
+  $("#darken").hide();
   if (scanning) {
     storeFrequency();
   }

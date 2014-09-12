@@ -7,6 +7,20 @@ body {
 	color: white;
 }
 
+div#darken {
+  pointer-events: none;
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 100px;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.4;
+  color: #000;
+  z-index: 1;
+}
+
 div#freqdial {
 	position: absolute;
 	top: 150px;
