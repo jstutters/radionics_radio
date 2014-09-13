@@ -237,7 +237,7 @@ function selectedStoredFreq() {
 
 function bodyKeyPress(ev) {
   console.log(ev.which);
-  if (!$('textarea#thoughttext').is(":focus")) {
+  if (!$('textarea#thoughttext').is(":focus") && !$('input#username').is(":focus")) {
     if (ev.which == 49) {
       console.log("disabling textarea");
       $("#thoughttext").css("pointer-events", 'none');
@@ -349,8 +349,9 @@ function createOscillator() {
 function doSubmit() {
   var data = {"thought": $("#thought").val(),
     "frequencies": $("#frequencies").val(),
-    "username": $("#username").val
+    "username": $("#username").val()
   };
+  console.log(data);
   $.post("contact-form-handler.php", data);
   $("#send_form").hide();
   alert("Thankyou for your submission");
