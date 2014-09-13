@@ -1,6 +1,6 @@
 <?php
 $errors = '';
-$myemail = 'jstutters@jeremah.co.uk';
+$myemail = 'radionicsradio@hotmail.com';
 if(empty($_POST['username']) || empty($_POST['thought']) || empty($_POST['frequencies'])) {
   $errors .= "\n Error: all fields are required";
 }
