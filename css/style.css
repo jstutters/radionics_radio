@@ -153,11 +153,11 @@ div#instructions ol {
 div#send_form {
   font-family: sans-serif;
   position: absolute;
-  left: 405px;
+  left: 385px;
   top: 300px;
   background: #000;
   color: #fff;
-  width: 220px;
+  width: 260px;
   display: none;
   font-size: 12px;
   padding: 10px;
@@ -228,4 +228,13 @@ div#show_instructions {
   left: 180px;
   top: 90px;
   font-size: 18px;
+}
+
+a.submit_form_link {
+  text-decoration: none;
+  font-size: 14px;
+  color: rgb(254, 246, 228);
+  margin-right: 10px;
+  position: relative;
+  left: 4;
 }

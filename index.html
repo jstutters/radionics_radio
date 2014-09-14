@@ -65,12 +65,16 @@
   </div>
 
   <div id="send_form">
-    <h1 style="position:relative;top:-10px; color:white;">RADIONICS RADIO</h1>
+    <h1 style="text-align: center; color: white;">RADIONICS RADIO</h1>
     <form onsubmit="return doSubmit();">
+      <p>Enter a username below then click submit to send your thought and frequencies.</p>
       <p>Username: <input type="text" id="username" name="username"></p>
       <input type="hidden" id="thought" name="thought">
       <input type="hidden" id="frequencies" name="frequencies">
-      <a href="#" onclick="doSubmit();">Submit</a> <a href="#" id="close_send_form">Cancel</a>
+      <p style="text-align: center">
+        <a href="#" class="submit_form_link" onclick="doSubmit();"><strong>SUBMIT</strong></a>
+        <a href="#" id="close_send_form" class="submit_form_link">CANCEL</a>
+      </p>
     </form>
   </div>
 
