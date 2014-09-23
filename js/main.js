@@ -79,7 +79,7 @@ function createKnobs() {
 
   $(".infknob").knob({
     'min': 0,
-    'max': 20,
+    'max': 120,
     'thickness': 0.03,
     'width': 250,
     'height': 250,
