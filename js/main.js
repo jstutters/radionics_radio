@@ -146,12 +146,12 @@ function freqnudgeChanged() {
 }
 
 function incr() {
-  oscillatorFreq += 0.4;
+  oscillatorFreq += 0.1;
   $(".dial").val(oscillatorFreq).trigger('change');
 }
 
 function decr() {
-  oscillatorFreq -= 0.4;
+  oscillatorFreq -= 0.1;
   $(".dial").val(oscillatorFreq).trigger('change');
 }
 
