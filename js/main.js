@@ -5,7 +5,7 @@ var audioCtx;
 var oscillatorRunning = false;
 var oscillatorFreq = 50;
 var i = 0;
-var v;
+var v = 0;
 var up = 0;
 var down = 0;
 var storedFreqIdx = 1;
@@ -54,7 +54,7 @@ function loadImages() {
 function createKnobs() {
   // main frequency knob
   $(".dial").knob({
-    'min': 50,
+    'min': 1,
     'max': 5000,
     'angleOffset': 270,
     'angleArc': 180,
@@ -79,12 +79,12 @@ function createKnobs() {
 
   $(".infknob").knob({
     'min': 0,
-    'max': 120,
+    'max': 240,
     'thickness': 0.03,
     'width': 250,
     'height': 250,
     'stopper': false,
-    'cursor': 0.1,
+    'cursor': 0.01,
     'change': freqnudgeChanged,
     'release': freqnudgeReleased,
   })
@@ -124,7 +124,7 @@ function freqnudgeChanged() {
   }
   if (v > this.cv) {
     if (up) {
-      decr();
+      decr(v - this.cv);
       up = 0;
     } else {
       up = 1;
@@ -133,7 +133,7 @@ function freqnudgeChanged() {
   } else {
     if (v < this.cv) {
       if (down) {
-        incr();
+        incr(this.cv - v);
         down = 0;
       } else {
         down = 1;
@@ -145,13 +145,13 @@ function freqnudgeChanged() {
   mainFreqChanged(oscillatorFreq);
 }
 
-function incr() {
-  oscillatorFreq += 0.1;
+function incr(times) {
+  oscillatorFreq += 0.1 * times;
   $(".dial").val(oscillatorFreq).trigger('change');
 }
 
-function decr() {
-  oscillatorFreq -= 0.1;
+function decr(times) {
+  oscillatorFreq -= 0.1 * times;
   $(".dial").val(oscillatorFreq).trigger('change');
 }
 
@@ -243,6 +243,9 @@ function bodyKeyPress(ev) {
       $("#thoughttext").css("pointer-events", 'none');
       $("#freqnudge").css("visibility", "visible");
       $("#darken").show();
+      v = 0;
+      up = 0;
+      down = 0;
       scanning = true;
       $('#infknob').knob().children("canvas").trigger("mousedown")
     } else if (ev.which == 50) {
@@ -286,7 +289,6 @@ function mainFreqChanged(val) {
   }
   oscillatorFreq = val;
   $("#freqreadout").text(oscillatorFreq.toFixed(2).toString() + " Hz");
-  console.log("setting frequency to", val);
 }
 
 function toggleOscillator() {
