@@ -351,6 +351,9 @@ function doSubmit() {
     "frequencies": $("#frequencies").val(),
     "username": $("#username").val()
   };
+  if (data["username"] == "") {
+      data["username"] = "Anonymous";
+  }
   console.log(data);
   $.post("contact-form-handler.php", data);
   $("#send_form").hide();
